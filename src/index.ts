@@ -21,7 +21,7 @@ type Platform = 'linux' | 'windows' | 'macos'
 const platform: Platform = env.RUNNER_OS!!.toLowerCase() as Platform
 
 async function download(tool: string, version: string, urls: Tools) {
-  let toolPath = tc.find(tool, version)
+  let toolPath = tc.find(tool, version, platform)
 
   const info: Tool | undefined = urls[platform]
 
@@ -47,7 +47,7 @@ async function download(tool: string, version: string, urls: Tools) {
         extractedPath = await tc.extractZip(downloadPath)
     }
 
-    toolPath = await tc.cacheDir(extractedPath, tool, version)
+    toolPath = await tc.cacheDir(extractedPath, tool, version, platform)
   }
 
   core.addPath(`${toolPath}/${info.binPath}`)
