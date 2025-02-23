@@ -18,7 +18,7 @@ interface Tool {
 type Platform = 'linux' | 'windows' | 'macos'
 
 // The operating system of the runner executing the job. Possible values are Linux, Windows, or macOS. For example, Windows
-const platform: Platform = env.RUNNER_OS!!.toLowerCase() as Platform
+const platform: Platform = (env.RUNNER_OS?.toLowerCase() || 'linux') as Platform
 
 async function download(tool: string, version: string, urls: Tools) {
   let toolPath = tc.find(tool, version, platform)
