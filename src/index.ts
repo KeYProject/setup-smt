@@ -1,7 +1,6 @@
 import * as tc from '@actions/tool-cache'
 import * as core from '@actions/core'
 import { env } from 'process'
-import { platform } from '@actions/core/lib/platform.js'
 
 interface Tools {
   linux: Tool | undefined
