@@ -29847,6 +29847,7 @@ async function download(tool, version, urls) {
     coreExports.debug(`${toolPath}/${info.binPath} to PATH`);
 }
 async function run() {
+    coreExports.debug(`Platform: ${platform}`);
     await download('z3', '4.14.0', {
         linux: {
             url: 'https://github.com/Z3Prover/z3/releases/download/z3-4.14.0/z3-4.14.0-x64-glibc-2.35.zip',
@@ -29883,5 +29884,10 @@ async function run() {
     });
 }
 
-export { run };
+/**
+ * The entrypoint for the action. This file simply imports and runs the action's
+ * main logic.
+ */
+/* istanbul ignore next */
+run();
 //# sourceMappingURL=index.js.map

@@ -1,7 +1,7 @@
 {
   "name": "setup-smt",
   "description": "GitHub Actions for setting up SMT",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": "",
   "type": "module",
   "private": true,
