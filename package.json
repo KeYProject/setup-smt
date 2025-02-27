@@ -1,17 +1,17 @@
 {
   "name": "setup-smt",
   "description": "GitHub Actions for setting up SMT",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "author": "",
   "type": "module",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/keyproject/setup-smt",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/keyproject/setup-smt.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/keyproject/setup-smt/issues"
   },
   "keywords": [
     "actions"
