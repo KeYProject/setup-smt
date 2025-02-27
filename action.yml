@@ -1,6 +1,6 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: setup-smt
+description: Download and provides the z3 and cvc5 SMT solvers
+author: Alexander Weigl
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
@@ -9,15 +9,15 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
+  z3Version:
+    description: Version of Z3 to install
     required: true
-    default: '1000'
+    default: '4.13.3'
 
-# Define your outputs here.
-outputs:
-  time:
-    description: Your output description here
+  cvc5Version:
+    description: Version of CVC5 to install
+    required: true
+    default: '1.2.1'
 
 runs:
   using: node20
