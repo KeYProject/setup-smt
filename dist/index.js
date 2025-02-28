@@ -29852,25 +29852,8 @@ async function download(tool, version, urls) {
 async function run() {
     coreExports.debug(`Platform: ${platform}`);
     const z3Version = coreExports.getInput('z3Version');
-    await download('z3', z3Version, {
-        linux: {
-            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-glibc-2.35.zip`,
-            format: 'zip',
-            binPath: `z3-${z3Version}-x64-glibc-2.35/bin/`
-        },
-        windows: {
-            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-win.zip`,
-            format: 'zip',
-            binPath: `z3-${z3Version}-x64-win/bin/`
-        },
-        macos: {
-            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.2.zip`,
-            format: 'zip',
-            binPath: `z3-${z3Version}-osx/bin/`
-        }
-    });
-    const cvc5Version = coreExports.getInput('cv5Version');
-    await download('cvc5', cvc5Version, {
+    const cvc5Version = coreExports.getInput('cvc5Version');
+    const CVC5_TOOL = {
         linux: {
             url: `https://github.com/cvc5/cvc5/releases/download/cvc5-${cvc5Version}/cvc5-Linux-x86_64-static.zip`,
             format: 'zip',
@@ -29886,7 +29869,26 @@ async function run() {
             format: 'zip',
             binPath: `cvc5-macOS-x86_64-static/bin/`
         }
-    });
+    };
+    const Z3_TOOL = {
+        linux: {
+            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-glibc-2.35.zip`,
+            format: 'zip',
+            binPath: `z3-${z3Version}-x64-glibc-2.35/bin/`
+        },
+        windows: {
+            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-win.zip`,
+            format: 'zip',
+            binPath: `z3-${z3Version}-x64-win/bin/`
+        },
+        macos: {
+            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.2.zip`,
+            format: 'zip',
+            binPath: `z3-${z3Version}-osx/bin/`
+        }
+    };
+    await download('cvc5', cvc5Version, CVC5_TOOL);
+    await download('z3', z3Version, Z3_TOOL);
 }
 
 run();
