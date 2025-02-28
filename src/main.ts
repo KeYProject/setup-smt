@@ -103,6 +103,42 @@ export async function run(): Promise<void> {
     }
   }
 
+  const cvc4Version = core.getInput('cvc4Version')
+  const CVC4_TOOL: Tools = {
+    linux: {
+      url: `https://github.com/CVC4/CVC4/releases/download/${cvc4Version}/cvc4-${cvc4Version}-x86_64-linux-opt`,
+      format: 'file',
+      binPath: ''
+    },
+    windows: {
+      url: `https://github.com/CVC4/CVC4/releases/download/${cvc4Version}/cvc4-${cvc4Version}-win64-opt.exe`,
+      format: 'file',
+      binPath: ''
+    },
+    macos: undefined
+  }
+
+  const princessVersion = core.getInput('princessVersion') // 2024-11-08
+  const PRINCESS_TOOL: Tools = {
+    linux: {
+      url: `https://github.com/uuverifiers/princess/releases/download/snapshot-${princessVersion}/princess-bin-${princessVersion}.zip`,
+      format: 'zip',
+      binPath: `princess-bin-${princessVersion}/bin/`
+    },
+    windows: {
+      url: `https://github.com/uuverifiers/princess/releases/download/snapshot-${princessVersion}/princess-bin-${princessVersion}.zip`,
+      format: 'zip',
+      binPath: `princess-bin-${princessVersion}/bin/`
+    },
+    macos: {
+      url: `https://github.com/uuverifiers/princess/releases/download/snapshot-${princessVersion}/princess-bin-${princessVersion}.zip`,
+      format: 'zip',
+      binPath: `princess-bin-${princessVersion}/bin/`
+    }
+  }
+
   await download('cvc5', cvc5Version, CVC5_TOOL)
   await download('z3', z3Version, Z3_TOOL)
+  await download('cvc4', cvc4Version, CVC4_TOOL)
+  await download('princess', princessVersion, PRINCESS_TOOL)
 }
