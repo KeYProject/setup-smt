@@ -44,13 +44,13 @@ jobs:
         id: npm-ci-test
         run: npm run ci-test
 
-  test-action:
-    name: GitHub Actions Test
+  test-action-z3:
+    name: Z3 Integration Tests
     strategy:
       fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        z3-version:
+        z3:
           [
             '4.13.0',
             '4.13.1',
@@ -63,7 +63,6 @@ jobs:
             '4.15.3',
             '4.15.4'
           ]
-        cvc5-version: ['1.3.2', '1.3.1', '1.2.1', '1.2.0']
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -74,9 +73,31 @@ jobs:
       - name: Test Local Action
         id: test-action
         uses: ./
+        with:
+          z3Version: ${{ matrix.z3 }}
+          cvc5Version: false
 
-      - name: Print SMT z3
-        run: z3 --version
+      - run: z3 --version
 
-      - name: Print SMT cvc5
-        run: cvc5 --version
+  test-action-cvc5:
+    name: CVC5 Integration Test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        cvc5: ['1.3.2', '1.3.1', '1.2.1', '1.2.0']
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v6
+
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          z3Version: false
+          cvc5Version: ${{ matrix.cvc5 }}
+
+      - run: cvc5 --version
