@@ -29,6 +29,7 @@ async function download(
   }
 
   let toolPath = tc.find(tool, version, platform)
+  core.debug(`Tool path: ${toolPath || 'not found in cache'}`)
 
   const info: Tool | undefined = urls[platform]
 
@@ -37,7 +38,10 @@ async function download(
   }
 
   if (!toolPath) {
+    core.debug(`Downloading ${tool} version ${version} from ${info.url}`)
+
     const downloadPath = await tc.downloadTool(info.url)
+
     let extractedPath: string
 
     switch (info.format) {
@@ -54,6 +58,7 @@ async function download(
         extractedPath = await tc.extractZip(downloadPath)
     }
 
+    core.debug(`Extracted to ${extractedPath}`)
     toolPath = await tc.cacheDir(extractedPath, tool, version, platform)
   }
 
@@ -137,8 +142,15 @@ export async function run(): Promise<void> {
     }
   }
 
+  core.debug(`CVC5 version: ${cvc5Version}`)
   await download('cvc5', cvc5Version, CVC5_TOOL)
+
+  core.debug(`Z3 version: ${z3Version}`)
   await download('z3', z3Version, Z3_TOOL)
+
+  core.debug(`CVC4 version: ${cvc4Version}`)
   await download('cvc4', cvc4Version, CVC4_TOOL)
+
+  core.debug(`Princess version: ${princessVersion}`)
   await download('princess', princessVersion, PRINCESS_TOOL)
 }
