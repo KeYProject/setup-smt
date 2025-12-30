@@ -29824,11 +29824,13 @@ async function download(tool, version, urls) {
         return;
     }
     let toolPath = toolCacheExports.find(tool, version, platform);
+    coreExports.debug(`Tool path: ${toolPath || 'not found in cache'}`);
     const info = urls[platform];
     if (info === undefined) {
         return;
     }
     if (!toolPath) {
+        coreExports.debug(`Downloading ${tool} version ${version} from ${info.url}`);
         const downloadPath = await toolCacheExports.downloadTool(info.url);
         let extractedPath;
         switch (info.format) {
@@ -29844,6 +29846,7 @@ async function download(tool, version, urls) {
             default:
                 extractedPath = await toolCacheExports.extractZip(downloadPath);
         }
+        coreExports.debug(`Extracted to ${extractedPath}`);
         toolPath = await toolCacheExports.cacheDir(extractedPath, tool, version, platform);
     }
     coreExports.addPath(`${toolPath}/${info.binPath}`);
@@ -29882,47 +29885,28 @@ async function run() {
             binPath: `z3-${z3Version}-x64-win/bin/`
         },
         macos: {
-            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.2.zip`,
+            url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.zip`,
             format: 'zip',
-            binPath: `z3-${z3Version}-osx/bin/`
+            binPath: `z3-${z3Version}-x64-osx-13.7/bin/`
         }
     };
-    const cvc4Version = coreExports.getInput('cvc4Version');
-    const CVC4_TOOL = {
-        linux: {
-            url: `https://github.com/CVC4/CVC4/releases/download/${cvc4Version}/cvc4-${cvc4Version}-x86_64-linux-opt`,
-            format: 'file',
-            binPath: ''
-        },
-        windows: {
-            url: `https://github.com/CVC4/CVC4/releases/download/${cvc4Version}/cvc4-${cvc4Version}-win64-opt.exe`,
-            format: 'file',
-            binPath: ''
-        },
-        macos: undefined
-    };
-    const princessVersion = coreExports.getInput('princessVersion'); // 2024-11-08
-    const PRINCESS_TOOL = {
-        linux: {
-            url: `https://github.com/uuverifiers/princess/releases/download/snapshot-${princessVersion}/princess-bin-${princessVersion}.zip`,
-            format: 'zip',
-            binPath: `princess-bin-${princessVersion}/bin/`
-        },
-        windows: {
-            url: `https://github.com/uuverifiers/princess/releases/download/snapshot-${princessVersion}/princess-bin-${princessVersion}.zip`,
-            format: 'zip',
-            binPath: `princess-bin-${princessVersion}/bin/`
-        },
-        macos: {
-            url: `https://github.com/uuverifiers/princess/releases/download/snapshot-${princessVersion}/princess-bin-${princessVersion}.zip`,
-            format: 'zip',
-            binPath: `princess-bin-${princessVersion}/bin/`
-        }
-    };
+    coreExports.getInput('cvc4Version');
+    coreExports.getInput('princessVersion'); // 2024-11-08
+    coreExports.startGroup('cvc5');
+    coreExports.debug(`CVC5 version: ${cvc5Version}`);
     await download('cvc5', cvc5Version, CVC5_TOOL);
+    coreExports.endGroup();
+    coreExports.startGroup('z3');
+    coreExports.debug(`Z3 version: ${z3Version}`);
     await download('z3', z3Version, Z3_TOOL);
-    await download('cvc4', cvc4Version, CVC4_TOOL);
-    await download('princess', princessVersion, PRINCESS_TOOL);
+    coreExports.endGroup();
+    /*
+    core.debug(`CVC4 version: ${cvc4Version}`)
+    await download('cvc4', cvc4Version, CVC4_TOOL)
+  
+    core.debug(`Princess version: ${princessVersion}`)
+    await download('princess', princessVersion, PRINCESS_TOOL)
+    */
 }
 
 run();

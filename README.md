@@ -24,7 +24,7 @@ jobs:
         uses: keyproject/setup-smt
 
       - name: Run solver
-        run: z3 <yoursmt smt-solver --version
+        run: z3 <yoursmt smt-solver> --version
 ```
 
 ## Inputs
@@ -34,6 +34,10 @@ This action does not have any inputs.
 ## Outputs
 
 This action does not produce any outputs.
+
+## Changelog
+
+- v0.2.2: fix macos/z3 error (wrong url + binary path)
 
 ## License
 

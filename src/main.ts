@@ -102,9 +102,9 @@ export async function run(): Promise<void> {
       binPath: `z3-${z3Version}-x64-win/bin/`
     },
     macos: {
-      url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.2.zip`,
+      url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.zip`,
       format: 'zip',
-      binPath: `z3-${z3Version}-osx/bin/`
+      binPath: `z3-${z3Version}-x64-osx-13.7/bin/`
     }
   }
 
@@ -142,15 +142,21 @@ export async function run(): Promise<void> {
     }
   }
 
+  core.startGroup('cvc5')
   core.debug(`CVC5 version: ${cvc5Version}`)
   await download('cvc5', cvc5Version, CVC5_TOOL)
+  core.endGroup()
 
+  core.startGroup('z3')
   core.debug(`Z3 version: ${z3Version}`)
   await download('z3', z3Version, Z3_TOOL)
+  core.endGroup()
 
+  /*
   core.debug(`CVC4 version: ${cvc4Version}`)
   await download('cvc4', cvc4Version, CVC4_TOOL)
 
   core.debug(`Princess version: ${princessVersion}`)
   await download('princess', princessVersion, PRINCESS_TOOL)
+  */
 }
