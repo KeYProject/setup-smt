@@ -37,6 +37,11 @@ This action does not produce any outputs.
 
 ## Changelog
 
+- v0.3.0:
+  - support for more z3 versions
+  - z3/cvc5 versions are now tested for installation and runnable in ci
+  - z3 or cvc5 can be disabled by using 'false' as version identifier
+
 - v0.2.2: fix macos/z3 error (wrong url + binary path)
 
 ## License
