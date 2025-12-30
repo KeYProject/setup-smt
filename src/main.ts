@@ -66,6 +66,55 @@ async function download(
   core.debug(`${toolPath}/${info.binPath} to PATH`)
 }
 
+function findZ3LinuxGLIBC(version: string): string {
+  switch (version) {
+    // 4.13.x
+    case '4.13.4':
+    case '4.13.3':
+    case '4.13.2':
+    case '4.13.0':
+    // 4.14.x
+    case '4.14.1':
+      return '2.35'
+    case '4.14.0':
+      return '2.35'
+
+    // 4.15.x
+    default:
+      return '2.39'
+  }
+}
+
+function findZ3MacOSSuffix(version: string): string {
+  switch (version) {
+    // 4.13.x
+    case '4.13.4':
+      return '13.7.1'
+    case '4.13.3':
+      return '13.7'
+    case '4.13.2':
+      return '12.7.6'
+    case '4.13.0':
+      return '11.7.10'
+
+    // 4.14.x
+    case '4.14.1':
+      return '13.7.4'
+    case '4.14.0':
+      return '13.7.2'
+
+    // 4.15.x
+    case '4.15.0':
+      return '13.7.5'
+    case '4.15.4':
+    case '4.15.3':
+    case '4.15.1':
+    // newest version as default
+    default:
+      return '13.7.6'
+  }
+}
+
 export async function run(): Promise<void> {
   core.debug(`Platform: ${platform}`)
 
@@ -92,9 +141,9 @@ export async function run(): Promise<void> {
 
   const Z3_TOOL: Tools = {
     linux: {
-      url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-glibc-2.35.zip`,
+      url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-glibc-${findZ3LinuxGLIBC(z3Version)}.zip`,
       format: 'zip',
-      binPath: `z3-${z3Version}-x64-glibc-2.35/bin/`
+      binPath: `z3-${z3Version}-x64-glibc-${findZ3LinuxGLIBC(z3Version)}/bin/`
     },
     windows: {
       url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-win.zip`,
@@ -102,9 +151,9 @@ export async function run(): Promise<void> {
       binPath: `z3-${z3Version}-x64-win/bin/`
     },
     macos: {
-      url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-13.7.zip`,
+      url: `https://github.com/Z3Prover/z3/releases/download/z3-${z3Version}/z3-${z3Version}-x64-osx-${findZ3MacOSSuffix(z3Version)}.zip`,
       format: 'zip',
-      binPath: `z3-${z3Version}-x64-osx-13.7/bin/`
+      binPath: `z3-${z3Version}-x64-osx-${findZ3MacOSSuffix(z3Version)}/bin/`
     }
   }
 

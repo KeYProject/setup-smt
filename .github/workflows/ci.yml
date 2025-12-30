@@ -50,6 +50,20 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+        z3-version:
+          [
+            '4.13.0',
+            '4.13.1',
+            '4.13.2',
+            '4.13.4',
+            '4.14.0',
+            '4.14.1',
+            '4.15.0',
+            '4.15.1',
+            '4.15.3',
+            '4.15.4'
+          ]
+        cvc5-version: ['1.3.2', '1.3.1', '1.2.1', '1.2.0']
     runs-on: ${{ matrix.os }}
 
     steps:
