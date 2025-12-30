@@ -191,15 +191,19 @@ export async function run(): Promise<void> {
     }
   }
 
-  core.startGroup('cvc5')
-  core.debug(`CVC5 version: ${cvc5Version}`)
-  await download('cvc5', cvc5Version, CVC5_TOOL)
-  core.endGroup()
+  if (cvc5Version != 'false') {
+    core.startGroup('cvc5')
+    core.debug(`CVC5 version: ${cvc5Version}`)
+    await download('cvc5', cvc5Version, CVC5_TOOL)
+    core.endGroup()
+  }
 
-  core.startGroup('z3')
-  core.debug(`Z3 version: ${z3Version}`)
-  await download('z3', z3Version, Z3_TOOL)
-  core.endGroup()
+  if (z3Version != 'false') {
+    core.startGroup('z3')
+    core.debug(`Z3 version: ${z3Version}`)
+    await download('z3', z3Version, Z3_TOOL)
+    core.endGroup()
+  }
 
   /*
   core.debug(`CVC4 version: ${cvc4Version}`)

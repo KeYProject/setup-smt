@@ -29936,14 +29936,18 @@ async function run() {
     };
     coreExports.getInput('cvc4Version');
     coreExports.getInput('princessVersion'); // 2024-11-08
-    coreExports.startGroup('cvc5');
-    coreExports.debug(`CVC5 version: ${cvc5Version}`);
-    await download('cvc5', cvc5Version, CVC5_TOOL);
-    coreExports.endGroup();
-    coreExports.startGroup('z3');
-    coreExports.debug(`Z3 version: ${z3Version}`);
-    await download('z3', z3Version, Z3_TOOL);
-    coreExports.endGroup();
+    if (cvc5Version != 'false') {
+        coreExports.startGroup('cvc5');
+        coreExports.debug(`CVC5 version: ${cvc5Version}`);
+        await download('cvc5', cvc5Version, CVC5_TOOL);
+        coreExports.endGroup();
+    }
+    if (z3Version != 'false') {
+        coreExports.startGroup('z3');
+        coreExports.debug(`Z3 version: ${z3Version}`);
+        await download('z3', z3Version, Z3_TOOL);
+        coreExports.endGroup();
+    }
     /*
     core.debug(`CVC4 version: ${cvc4Version}`)
     await download('cvc4', cvc4Version, CVC4_TOOL)
